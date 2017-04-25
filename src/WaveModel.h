@@ -6,21 +6,21 @@
 class WaveModel {
 public:
   WaveModel(double direction[2], double, double, double);
-
   WaveModel(const WaveModel &);
+  //virtual ~WaveModel();
   double *getDirection() const;
   double getAlignement() const;
   double getIntensite() const;
   double getAjustement() const;
-  double& operator()(int, int, double) const;
-  const Height& getHeight() const;
+//  double operator()(int, int, double) const;
+
 
 protected:
   double *direction;
   double alignement;
   double intensite;
   double ajustement;
-  Height height;
+
 };
 
 #endif

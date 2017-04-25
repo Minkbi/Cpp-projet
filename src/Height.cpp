@@ -23,6 +23,9 @@ Height::Height(const Height &h){
   mat = new double*[nx];
   for (int i=0; i<nx; i++) {
     mat[i] = new double[ny];
+    for (int j=0; j<ny; j++){
+    	mat[i][j] = h(i,j);
+    }
   } 
 }
 
@@ -61,3 +64,20 @@ double Height::taillex() const {
 double Height::tailley() const {
   return ly;
 }
+
+Height Height::operator=(Height h) {
+	lx = h.taillex();
+	ly = h.tailley();
+	nx = h.sizex();
+	ny = h.sizey();
+	mat = new double*[nx];
+	for (int i=0; i<nx; i++) {
+	mat[i] = new double[ny];
+		for (int j=0; j<ny; j++){
+			mat[i][j] = h(i,j);
+		}
+  }
+  return *this;
+}
+
+

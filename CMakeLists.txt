@@ -3,7 +3,7 @@ cmake_minimum_required (VERSION 2.8.11)
 project(Demo)
 
 set(CMAKE_CXX_FLAGS "-g -Wall")
-=======
+
 #==========================================
 #Project name
 #==========================================
@@ -11,7 +11,7 @@ project(CPP)
 
 add_test (NAME test_gtest COMMAND test_simple)
 #add_test (NAME test_class_gtest COMMAND test_class)
-=======
+
 #==============================================
 #Project sources : src
 #==============================================

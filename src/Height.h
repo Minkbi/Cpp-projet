@@ -13,6 +13,7 @@ public:
   int sizey() const;
   double taillex() const;
   double tailley() const;
+  Height operator=(Height);
 
 private:
   double lx;
