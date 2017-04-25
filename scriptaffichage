@@ -1,4 +1,7 @@
 set dgrid3d 30,30
 set hidden3d
+set xrange [0:10]
+set yrange [0:10]
+set zrange [-10:25]
 splot "myfile.txt" u 1:2:3 with lines
-pause -1
+pause 0.1
