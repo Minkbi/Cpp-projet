@@ -1,6 +1,5 @@
 #ifndef HEIGHT_HPP_
 #define HEIGHT_HPP_
-#include "Dvector.h"
 #include <iostream>
 
 class Height {

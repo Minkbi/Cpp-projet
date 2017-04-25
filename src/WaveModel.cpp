@@ -9,6 +9,7 @@ WaveModel::WaveModel(double *d, double ali, double i, double aju) {
   alignement = ali;
   intensite = i;
   ajustement = aju;
+  height= new Height(1,1,1,1);
 }
 
 WaveModel::WaveModel(const WaveModel &w) {
@@ -16,6 +17,7 @@ WaveModel::WaveModel(const WaveModel &w) {
   alignement = w.getAlignement();
   intensite = w.getIntensite();
   ajustement = w.getAjustement();
+  height = new Height(w.getHeight());
 }
 
 double * WaveModel::getDirection() const {
@@ -32,4 +34,12 @@ double WaveModel::getIntensite() const {
 
 double WaveModel::getAjustement() const {
   return ajustement;
+}
+
+const Height& WaveModel::getHeight() const {
+	return height;
+}
+
+double& WaveModel::operator()(int x, int y, double t) const {
+  return  height(x,y);
 }
