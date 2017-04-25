@@ -5,8 +5,8 @@
 
 class WaveModel {
 public:
-  WaveModel(double direction[3], double, double, double);
-  //pourquoi direction 3 ?
+  WaveModel(double direction[2], double, double, double);
+
   WaveModel(const WaveModel &);
   double *getDirection() const;
   double getAlignement() const;

@@ -14,7 +14,7 @@ struct List
 
 class GerstnerWaveModel : public WaveModel {
 public:
-  GerstnerWaveModel(double direction[3], double, double, double);
+  GerstnerWaveModel(double direction[2], double, double, double);
   GerstnerWaveModel(const GerstnerWaveModel &);
   const List& getWaveList() const;
   void addWave(GerstnerWave) ;

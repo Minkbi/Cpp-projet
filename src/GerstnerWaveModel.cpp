@@ -38,7 +38,7 @@ double& GerstnerWaveModel::operator()(int x, int y, double t) const {
 	List *cour = waveList;
 	while(cour !=NULL){
 		z += cour->wave.getAmplitude() * cos(cour->wave.getDirection()[0] * x
-				+ cour->wave.getDirection()[1] * y // pas sur
+				+ cour->wave.getDirection()[1] * y
 				- cour->wave.getFrequence()* t +cour->wave.getPhase() );
 	}
 
