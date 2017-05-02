@@ -12,6 +12,22 @@ project(CPP)
 add_test (NAME test_gtest COMMAND test_simple)
 #add_test (NAME test_class_gtest COMMAND test_class)
 
+#==========================================
+#Building options
+#==========================================
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -lGL -lglut -lGLU -lpng -fopenmp")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
+
+#==========================================
+#Libraries path : glut glm, sfml, glew, opengl, freetype
+#==========================================
+
+#GLUT Libraries
+set(GLM_INCLUDE_DIRS "GL/glut.h" CACHE PATH "glut")
+include_directories(${GLM_INCLUDE_DIRS})
+
+find_package(OpenGL REQUIRED)
+
 #==============================================
 #Project sources : src
 #==============================================

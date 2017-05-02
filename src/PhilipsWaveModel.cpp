@@ -1,6 +1,8 @@
 #include "PhilipsWaveModel.h"
 #include <cmath>
 
+
+
 PhilipsWaveModel::~PhilipsWaveModel(){
 	List* cour = waveList;
 	List* temp = waveList;
@@ -47,13 +49,31 @@ List* PhilipsWaveModel::getWaveList() const {
 
 
 double PhilipsWaveModel::operator()(int x, int y, double t) const {
-	double z = ajustement; //hauteur moyenne / initiale
-	List *cour = waveList;
-	while(cour !=NULL){
-		z += cour->wave->getAmplitude() * cos(cour->wave->getDirection()[0] * x
-				+ cour->wave->getDirection()[1] * y
-				- cour->wave->getFrequence()* t +cour->wave->getPhase() );
-	}
+  double z = ajustement; //hauteur moyenne / initiale
+  List *cour = waveList;
+  double res[2];
+  double kx = TWOPI*x/10;
+  double ky = TWOPI*y/10;
+  double k = sqrt(kx*kx+ky*ky);
+  while(cour !=NULL){
+    double ampl = cour->wave->getAmplitude();
+    //cour->wave->getPhase();
+    double *dir = cour->wave->getDirection();
+    double freq = cour->wave->getFrequence();
+    double epsr = RANDN;
+    double epsi = RANDN;
+    double L = intensite*intensite/10;
+    double Ph1 = ampl*exp(-1/(k*L)/(k*L))*(kx*dir[1]+ky*dir[2])*(kx*dir[1]+ky*dir[2])/(k*k);
+    double Ph2 = ampl*exp(-1/(k*L)/(k*L))*(-kx*dir[1]-ky*dir[2])*(-kx*dir[1]-ky*dir[2])/(k*k);
+    
+    res[1] = sqrt(Ph1/2)*(epsr*cos(freq*t+kx*x+ky*y)-epsi*sin(freq*t+kx*x+ky*y));
+    res[1] += sqrt(Ph2/2)*(epsr*cos(-freq*t+kx*x+ky*y)+epsi*sin(-freq*t+kx*x+ky*y));
+    
+    //res[2] = sqrt(Ph1/2)*(epsr*sin(freq*t+kx*x+ky*y)+epsi*cos(freq*t+kx*x+ky*y));
+    //res[2] += sqrt(Ph2/2)*(epsr*sin(-freq*t+kx*x+ky*y)-epsi*cos(-freq*t+kx*x+ky*y));
 
+    z += res[1];
+    cour = cour->next;
+  }
   return  z;
 }
