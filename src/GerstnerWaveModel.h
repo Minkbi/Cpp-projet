@@ -21,7 +21,7 @@ class GerstnerWaveModel : public WaveModel {
   ListGerstner* getWaveList() const;
   void addWave(GerstnerWave);
   double operator()(int, int, double) const override;
-
+  void compute(double, Height*) const override;
  private:
   ListGerstner *waveList;
 

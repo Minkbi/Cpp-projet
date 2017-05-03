@@ -30,11 +30,7 @@ double Ocean::get_ly() const {
 }
 
 void Ocean::main_computation() {
-  for (int i = 0 ; i < nx ; i++) {
-    for (int j = 0 ; j < ny ; j++) {
-      H(i,j) = (*model)(i,j,t);
-    }
-  }
+  (*model).compute(t,&H);
   t += 0.001;
 }
 

@@ -17,7 +17,7 @@ public:
   double getIntensite() const;
   double getAjustement() const;
   virtual double operator()(int, int, double) const;
-
+  virtual void compute(double, Height*) const;
 
 protected:
   Dvector direction;

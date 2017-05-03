@@ -41,3 +41,4 @@ double WaveModel::operator()(int, int, double) const {
   return ajustement;
 }
 
+void WaveModel::compute(double, Height*) const {}

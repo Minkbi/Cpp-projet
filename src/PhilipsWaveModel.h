@@ -5,7 +5,8 @@
 #include <cmath>
 #include "WaveModel.h"
 #include "PhilipsWave.h"
-#include "fft.h"
+#include "Ftransform.h"
+#include "HeightComplex.h"
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
@@ -40,6 +41,7 @@ class PhilipsWaveModel : public WaveModel {
   ListPhilips* getWaveList() const;
   void addWave(PhilipsWave);
   double operator()(int, int, double) const override;
+  void compute(double, Height*) const override;
  private:
   ListPhilips *waveList;
 };
