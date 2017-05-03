@@ -176,17 +176,16 @@ DvectorComplex operator*(const DvectorComplex& v1, complex<double> val) {
 }
 
 DvectorComplex operator/(const DvectorComplex& v1, complex<double> val) {
-	complex<double> zero = 0.+ 0.i;
-	if (val != zero) {
-    int n = v1.size();
-    DvectorComplex newv(n);
-    for (int i=0; i<n; i++) {
-      newv.set(i, v1(i) / val);
+    if (abs(val) != 0) {
+        int n = v1.size();
+        DvectorComplex newv(n);
+        for (int i=0; i<n; i++) {
+	    newv.set(i, v1(i) / val);
+	}
+	return newv;
+    } else {
+        throw Error("Division par zero !");
     }
-    return newv;
-  } else {
-    throw Error("Division par zero !");
-  }
 }
 
 void operator+=(DvectorComplex& v1, complex<double> val) {
@@ -211,8 +210,7 @@ void operator*=(DvectorComplex& v1, complex<double> val) {
 }
 
 void operator/=(DvectorComplex& v1, complex<double> val) {
-  complex<double> zero = 0.+ 0.i;
-  if (val != zero) {
+  if (abs(val) != 0) {
     int n = v1.size();
     for (int i=0; i<n; i++) {
       v1.set(i, v1(i) / val);
