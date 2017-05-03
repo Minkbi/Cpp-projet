@@ -29,23 +29,23 @@
 */
 #define RANDN sqrt(-2.0*log(RAND))*cos(TWOPI*RAND)
 
-typedef struct List List;
-struct List
+typedef struct ListPhilips ListPhilips;
+struct ListPhilips
 {
-    PhilipsWave* wave;
-    List *next;
+  PhilipsWave* wave;
+  ListPhilips *next;
 };
 
 class PhilipsWaveModel : public WaveModel {
-public:
-	~PhilipsWaveModel();
-	PhilipsWaveModel(double direction[2], double, double, double);
-	PhilipsWaveModel(const PhilipsWaveModel &);
-	List* getWaveList() const;
-	void addWave(PhilipsWave) ;
-	double operator()(int, int, double) const ;
-private:
-  List *waveList;
+ public:
+  ~PhilipsWaveModel();
+  PhilipsWaveModel(Dvector, double, double, double);
+  PhilipsWaveModel(const PhilipsWaveModel &);
+  ListPhilips* getWaveList() const;
+  void addWave(PhilipsWave) ;
+  double operator()(int, int, double) const override;
+ private:
+  ListPhilips *waveList;
 };
 
 #endif

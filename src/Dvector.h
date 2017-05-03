@@ -1,6 +1,7 @@
 #ifndef DVECTOR_HPP_
 #define DVECTOR_HPP_
 #include <iostream>
+#include "Error.h"
 
 class Dvector {
 public:

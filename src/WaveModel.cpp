@@ -4,7 +4,8 @@
 #include <iostream>
 #include <fstream>
 
-WaveModel::WaveModel(double *d, double ali, double i, double aju) {
+WaveModel::WaveModel(Dvector d, double ali, double i, double aju) {
+  if (d.size() != 2) throw Error("la direction du vent doit être de dimension 2");
   direction = d;
   alignement = ali;
   intensite = i;
@@ -20,7 +21,7 @@ WaveModel::WaveModel(const WaveModel &w) {
 
 }
 
-double * WaveModel::getDirection() const {
+Dvector WaveModel::getDirection() const {
   return direction;
 }
 
@@ -33,6 +34,10 @@ double WaveModel::getIntensite() const {
 }
 
 double WaveModel::getAjustement() const {
+  return ajustement;
+}
+
+double WaveModel::operator()(int, int, double) const {
   return ajustement;
 }
 

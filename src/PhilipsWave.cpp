@@ -1,6 +1,7 @@
 #include "PhilipsWave.h"
 
-PhilipsWave::PhilipsWave(double *k, double a, double p, double f) {
+PhilipsWave::PhilipsWave(Dvector k, double a, double p, double f) {
+  if (k.size() != 2) throw Error("la direction du vent doit être de dimension 2");
   direction = k;
   amplitude = a;
   phase = p;
@@ -14,7 +15,7 @@ PhilipsWave::PhilipsWave(const PhilipsWave &g) {
   frequence = g.getFrequence();
 }
 
-double *PhilipsWave::getDirection() const {
+Dvector PhilipsWave::getDirection() const {
 	return direction;
 }
 

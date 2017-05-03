@@ -4,24 +4,26 @@
 #include <iostream>
 #include "WaveModel.h"
 #include "GerstnerWave.h"
-typedef struct List List;
-struct List
+
+typedef struct ListGerstner ListGerstner;
+struct ListGerstner
 {
-    GerstnerWave* wave;
-    List *next;
+  GerstnerWave *wave;
+  ListGerstner *next;
 };
 
 
 class GerstnerWaveModel : public WaveModel {
-public:
-	~GerstnerWaveModel();
-	GerstnerWaveModel(double direction[2], double, double, double);
-	GerstnerWaveModel(const GerstnerWaveModel &);
-	List* getWaveList() const;
-	void addWave(GerstnerWave) ;
-	double operator()(int, int, double) const ;
-private:
-  List *waveList;
+ public:
+  ~GerstnerWaveModel();
+  GerstnerWaveModel(Dvector direction, double, double, double);
+  GerstnerWaveModel(const GerstnerWaveModel &);
+  ListGerstner* getWaveList() const;
+  void addWave(GerstnerWave) ;
+  double operator()(int, int, double) const override;
+
+ private:
+  ListGerstner *waveList;
 
 };
 

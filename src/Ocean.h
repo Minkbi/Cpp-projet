@@ -2,11 +2,12 @@
 #define OCEAN_HPP_
 
 #include "GerstnerWaveModel.h"
+#include "PhilipsWaveModel.h"
 #include "Height.h"
 
 class Ocean {
  public:
-  Ocean(double,double,int,int,GerstnerWaveModel,Height);
+  Ocean(double,double,int,int,WaveModelPtr,Height);
   ~Ocean();
   void init_gl_VertexArrayX(const int y, double* const vertices) const;
   void init_gl_VertexArrayY(const int x, double* const vertices) const;
@@ -25,10 +26,8 @@ class Ocean {
   int ny;
   double t;
   Height H;
-  GerstnerWaveModel model;
-
+  WaveModelPtr model;
 
 };
-
 #endif
 

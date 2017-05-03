@@ -1,26 +1,31 @@
 #ifndef WAVE_MODEL_HPP_
 #define WAVE_MODEL_HPP_
 #include <iostream>
+#include <memory>
 #include "Height.h"
+#include "Dvector.h"
+#include "Error.h"
 
 class WaveModel {
 public:
-  WaveModel(double direction[2], double, double, double);
+  WaveModel(Dvector direction, double, double, double);
   WaveModel(const WaveModel &);
   //virtual ~WaveModel();
-  double *getDirection() const;
+  Dvector getDirection() const;
   double getAlignement() const;
   double getIntensite() const;
   double getAjustement() const;
-//  double operator()(int, int, double) const;
+  virtual double operator()(int, int, double) const;
 
 
 protected:
-  double *direction;
+  Dvector direction;
   double alignement;
   double intensite;
   double ajustement;
 
 };
+
+typedef std::shared_ptr<WaveModel> WaveModelPtr;
 
 #endif

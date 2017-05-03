@@ -15,20 +15,48 @@ int main(int argc, char** argv) {
   int ny = 100;
 
   /** @todo Initialiser du modèle*/
-  double dir[2];
-  dir[0] = 1;
-  dir[1] = 0;
-  double dir2[2];
-  dir[0] = -0.5;
-  dir[1] = 0.5;
-  GerstnerWaveModel model(dir,1,1,1);
-  //GerstnerWave wave(dir2,5,5,5);
-  //model.addWave(wave);
-  /** @todo Initialiser du champ de hauteur */
+  Dvector dir(2);
+  dir(0) = 1;
+  dir(1) = 0;
+  Dvector dir2(2);
+  dir(0) = -0.5;
+  dir(1) = 0.5;
+  WaveModel *model;
+  if (argc > 1) {
+    if (argv[1][0] == '-') {
+      switch (argv[1][1]) {
+      case 'g':
+	model = new GerstnerWaveModel(dir,1,1,1);
+	break;
+      case 'p':
+	model = new PhilipsWaveModel(dir,1,1,1);
+	break;
+      default: 
+	cout << "./main nomModel\nModel disponible :\n\n"
+	     << "Gerstner : -g\n"
+	     << "Philips  : -p\n"
+	     << "default model : Gerstner\n\n";
+	exit(0);
+	break;
+      }
+    } else {
+      cout << "./main nomModel\nModel disponible :\n\n"
+	   << "Gerstner : -g\n"
+	   << "Philips  : -p\n"
+	   << "default model : Gerstner\n\n";
+      exit(0);
+    }
+} else {
+    model = new GerstnerWaveModel(dir,1,1,1);
+    //GerstnerWave wave(dir2,5,5,5);
+    //model.addWave(wave);
+  }
+  WaveModelPtr modelPtr(model);
+/** @todo Initialiser du champ de hauteur */
   Height H(lx,ly,nx,ny);
 
   /** @todo Initialiser de l'océan */
-  ocean = new Ocean(lx,ly,nx,ny,model,H);
+  ocean = new Ocean(lx,ly,nx,ny,modelPtr,H);
 
   /* Initialisation de la fenêtre d'affichage */
   Window::init(WIDTH, HEIGHT, "Houle", argc, argv, "AZERTY", 50, 1);
