@@ -12,6 +12,9 @@ Height::Height(double taillex, double tailley, int nombrex, int nombrey){
   mat = new double*[nx];
   for (int i=0; i<nx; i++) {
     mat[i] = new double[ny];
+    for (int j=0; j<ny; j++) {
+      mat[i][j] = 0;
+    }
   } 
 }
 

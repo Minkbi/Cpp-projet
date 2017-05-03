@@ -1,5 +1,5 @@
 CFLAGS=-c -g -std=gnu99
 LDFLAGS=-lm
 
-%.o:%.c
+%.o:%.cpp
 	gcc $(CFLAGS) $<

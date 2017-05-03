@@ -1,6 +1,7 @@
 #include "GerstnerWave.h"
 
-GerstnerWave::GerstnerWave(double *d, double a, double p, double f) {
+GerstnerWave::GerstnerWave(Dvector d, double a, double p, double f) {
+  if (d.size() != 2) throw Error("la direction du vent doit être de dimension 2");
   direction = d;
   amplitude = a;
   phase = p;
@@ -14,7 +15,7 @@ GerstnerWave::GerstnerWave(const GerstnerWave &g) {
   frequence = g.getFrequence();
 }
 
-double *GerstnerWave::getDirection() const {
+Dvector GerstnerWave::getDirection() const {
 	return direction;
 }
 

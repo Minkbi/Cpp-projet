@@ -1,5 +1,4 @@
 #include "Dvector.h"
-#include "Error.h"
 
 #include <stdlib.h>
 #include <iostream>
@@ -287,12 +286,6 @@ std::istream& operator>>(std::istream& is, Dvector& obj) {
     if (c != '\n' && c != '\0') {
       ligne += c;
     } else if (c != '\0') {
-//      try {
-//	Double.parseDouble(ligne[i].c_str());
-//      } catch (NumberFormatException nfe) {
-//	is.setstate(std::ios::failbit);
-//	break;
-//      }
       obj(i) = atof(ligne.c_str());
       ligne = "";
       i++;
