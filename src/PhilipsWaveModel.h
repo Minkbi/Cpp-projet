@@ -5,6 +5,7 @@
 #include <cmath>
 #include "WaveModel.h"
 #include "PhilipsWave.h"
+#include "fft.h"
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
@@ -16,11 +17,6 @@
 
 //srand(time(NULL));
 #define RAND ((double) rand())/((double) RAND_MAX)
- 
-/*
-   TWOPI = 2.0*pi
-*/
-#define TWOPI 2.0*3.141592653589793238462643383279502884197169399375
  
 /* 
    RANDN is a macro which returns a pseudo-random numbers from a normal
@@ -42,7 +38,7 @@ class PhilipsWaveModel : public WaveModel {
   PhilipsWaveModel(Dvector, double, double, double);
   PhilipsWaveModel(const PhilipsWaveModel &);
   ListPhilips* getWaveList() const;
-  void addWave(PhilipsWave) ;
+  void addWave(PhilipsWave);
   double operator()(int, int, double) const override;
  private:
   ListPhilips *waveList;

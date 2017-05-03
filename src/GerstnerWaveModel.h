@@ -19,7 +19,7 @@ class GerstnerWaveModel : public WaveModel {
   GerstnerWaveModel(Dvector direction, double, double, double);
   GerstnerWaveModel(const GerstnerWaveModel &);
   ListGerstner* getWaveList() const;
-  void addWave(GerstnerWave) ;
+  void addWave(GerstnerWave);
   double operator()(int, int, double) const override;
 
  private:

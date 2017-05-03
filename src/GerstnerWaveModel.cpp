@@ -15,8 +15,6 @@ GerstnerWaveModel::~GerstnerWaveModel(){
 
 GerstnerWaveModel::GerstnerWaveModel(Dvector d, double ali, double i, double aju) : WaveModel(d, ali, i, aju){
   waveList = NULL;
-  GerstnerWave wave(d,10,10,10);
-  addWave(wave);
 }
 
 GerstnerWaveModel::GerstnerWaveModel(const GerstnerWaveModel &w) : WaveModel(w) {

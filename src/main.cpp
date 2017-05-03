@@ -26,10 +26,20 @@ int main(int argc, char** argv) {
     if (argv[1][0] == '-') {
       switch (argv[1][1]) {
       case 'g':
-	model = new GerstnerWaveModel(dir,1,1,1);
-	break;
+	{
+	  model = new GerstnerWaveModel(dir,1,1,1);
+	  GerstnerWave wave(dir,10,10,10);
+	  ((GerstnerWaveModel*)model)->addWave(wave);
+	  GerstnerWave wave2(dir2,10,10,10);
+	  ((GerstnerWaveModel*)model)->addWave(wave2);
+	  break;
+	}
       case 'p':
-	model = new PhilipsWaveModel(dir,1,1,1);
+	{
+	  model = new PhilipsWaveModel(dir,1,1,1);
+	  PhilipsWave wave(dir,10,10,10);
+	  ((PhilipsWaveModel*)model)->addWave(wave);
+	}
 	break;
       default: 
 	cout << "./main nomModel\nModel disponible :\n\n"
@@ -46,13 +56,15 @@ int main(int argc, char** argv) {
 	   << "default model : Gerstner\n\n";
       exit(0);
     }
-} else {
+  } else {
     model = new GerstnerWaveModel(dir,1,1,1);
-    //GerstnerWave wave(dir2,5,5,5);
-    //model.addWave(wave);
+    GerstnerWave wave(dir,10,10,10);
+    ((GerstnerWaveModel*)model)->addWave(wave);
+    GerstnerWave wave2(dir2,10,10,10);
+    ((GerstnerWaveModel*)model)->addWave(wave2);
   }
   WaveModelPtr modelPtr(model);
-/** @todo Initialiser du champ de hauteur */
+  /** @todo Initialiser du champ de hauteur */
   Height H(lx,ly,nx,ny);
 
   /** @todo Initialiser de l'océan */
