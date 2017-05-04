@@ -2,144 +2,95 @@
 #include <cmath>
 
 PhilipsWaveModel::~PhilipsWaveModel(){
-  ListPhilips* cour = waveList;
-  ListPhilips* temp = waveList;
-  while (cour!=NULL){
-    delete cour->wave;
-    temp = cour;
-    cour = cour->next;
-    delete temp	;
-
-
-  }
 }
 
-PhilipsWaveModel::PhilipsWaveModel(Dvector d, double ali, double i, double aju) : WaveModel(d, ali, i, aju){
-  waveList = NULL;
+PhilipsWaveModel::PhilipsWaveModel(Dvector d, double ali, double i, double aju) : WaveModel(d, ali, i, aju)
+{}
 
-}
+PhilipsWaveModel::PhilipsWaveModel(const PhilipsWaveModel &w) : WaveModel(w) {}
 
-PhilipsWaveModel::PhilipsWaveModel(const PhilipsWaveModel &w) : WaveModel(w) {
-  waveList = NULL;
-  ListPhilips *cour = w.getWaveList();
-  ListPhilips *temp = NULL;
-  while(cour!=NULL){
-    temp = new struct ListPhilips;
-    temp->wave = new PhilipsWave(*cour->wave);
-    temp->next = waveList;
-    waveList = temp;
-    cour = cour->next;
-  }
-
-}
-
-void PhilipsWaveModel::addWave(PhilipsWave newWave) {
-  ListPhilips *temp = new struct ListPhilips;
-  temp->wave = new PhilipsWave(newWave);
-  temp->next = waveList;
-  waveList = temp;
-}
-
-
-ListPhilips* PhilipsWaveModel::getWaveList() const {
-  return waveList;
-}
-
-
-double PhilipsWaveModel::operator()(int x, int y, double t) const {
-  
-  double z = ajustement; //hauteur moyenne / initiale
-  ListPhilips *cour = waveList;
-  Dvector res(2);
-  double kx = TWOPI*x/10;
-  double ky = TWOPI*y/10;
+complex<double> PhilipsWaveModel::calc(double kx, double ky, double t) const {
   double k = sqrt(kx*kx+ky*ky);
-  while(cour !=NULL){
-    double ampl = cour->wave->getAmplitude();
-    //cour->wave->getPhase();
-    Dvector dir = cour->wave->getDirection();
-    double freq = cour->wave->getFrequence();
-    double epsr = RANDN;
-    double epsi = RANDN;
-    double L = dir(0)*dir(0)+dir(1)*dir(1)/10;
-    double Ph1 = ampl*exp(-1/(k*L)/(k*L))*(kx*dir(0)+ky*dir(1))*(kx*dir(0)+ky*dir(1))/(k*k);
-    double Ph2 = ampl*exp(-1/(k*L)/(k*L))*(-kx*dir(0)-ky*dir(1))*(-kx*dir(0)-ky*dir(1))/(k*k);
+  double ampl = ajustement;
+  Dvector dir = direction;
+  double freq = 10;
+  double epsr = RANDN;
+  double epsi = RANDN;
+  double L = dir(0)*dir(0)+dir(1)*dir(1)/10;
+  double Ph1 = ampl*exp(-1/(k*L)/(k*L))*(kx*dir(0)+ky*dir(1))*(kx*dir(0)+ky*dir(1))/(k*k);
+  double Ph2 = ampl*exp(-1/(k*L)/(k*L))*(-kx*dir(0)-ky*dir(1))*(-kx*dir(0)-ky*dir(1))/(k*k);
     
-    res(0) = sqrt(Ph1/2)*(epsr*cos(freq*t+kx*x+ky*y)-epsi*sin(freq*t+kx*x+ky*y));
-    res(0) += sqrt(Ph2/2)*(epsr*cos(-freq*t+kx*x+ky*y)+epsi*sin(-freq*t+kx*x+ky*y));
+  double res1 = sqrt(Ph1/2)*(epsr*cos(freq*t)-epsi*sin(freq*t));
+  res1 += sqrt(Ph2/2)*(epsr*cos(-freq*t)+epsi*sin(-freq*t));
     
-    //res(1) = sqrt(Ph1/2)*(epsr*sin(freq*t+kx*x+ky*y)+epsi*cos(freq*t+kx*x+ky*y));
-    //res(1) += sqrt(Ph2/2)*(epsr*sin(-freq*t+kx*x+ky*y)-epsi*cos(-freq*t+kx*x+ky*y));
+  double res2 = sqrt(Ph1/2)*(epsr*sin(freq*t)+epsi*cos(freq*t));
+  res2 += sqrt(Ph2/2)*(epsr*sin(-freq*t)-epsi*cos(-freq*t));
 
-    z += res(0);
-    cour = cour->next;
-  }
-  return  z;
+  complex<double> res(res1,res2);
+  return  res;
 }
 
-void PhilipsWaveModel::compute(double t, Height *H) const {  
-
+void PhilipsWaveModel::compute(double t, Height *H) const {
   HeightComplex Hcomplex(*H);
-  
-  for (int x = 0 ; x < Hcomplex.sizex() ; x++) {
-    for (int y = 0 ; y < Hcomplex.sizey() ; y++) {
-      ListPhilips *cour = waveList;
-      Dvector res(2);
-      res(0) = ajustement;
-      res(1) = ajustement;
-      double kx = TWOPI*x/10;
-      double ky = TWOPI*y/10;
-      double k = sqrt(kx*kx+ky*ky);
-      while(cour !=NULL){
-	double ampl = cour->wave->getAmplitude();
-	//cour->wave->getPhase();
-	Dvector dir = cour->wave->getDirection();
-	double freq = cour->wave->getFrequence();
-	double epsr = RANDN;
-	double epsi = RANDN;
-	double L = dir(0)*dir(0)+dir(1)*dir(1)/10;
-	double Ph1 = ampl*exp(-1/(k*L)/(k*L))*(kx*dir(0)+ky*dir(1))*(kx*dir(0)+ky*dir(1))/(k*k);
-	double Ph2 = ampl*exp(-1/(k*L)/(k*L))*(-kx*dir(0)-ky*dir(1))*(-kx*dir(0)-ky*dir(1))/(k*k);
-    
-	res(0) += sqrt(Ph1/2)*(epsr*cos(freq*t+kx*x+ky*y)-epsi*sin(freq*t+kx*x+ky*y));
-	res(0) += sqrt(Ph2/2)*(epsr*cos(-freq*t+kx*x+ky*y)+epsi*sin(-freq*t+kx*x+ky*y));
-    
-	res(1) += sqrt(Ph1/2)*(epsr*sin(freq*t+kx*x+ky*y)+epsi*cos(freq*t+kx*x+ky*y));
-	res(1) += sqrt(Ph2/2)*(epsr*sin(-freq*t+kx*x+ky*y)-epsi*cos(-freq*t+kx*x+ky*y));
-	cour = cour->next;
-      }
-      complex<double> res2(res(0),res(1));
-      Hcomplex(x,y)=res2;
+  HeightComplex Hcomplex2(*H);
+  int nx = Hcomplex.sizex();
+  int ny = Hcomplex.sizey();
+  double lx = Hcomplex.taillex();
+  double ly = Hcomplex.tailley();
+
+  for (int i = -nx/2 ; i < nx/2 ; i++) {
+    for (int j = -ny/2 ; j < ny/2 ; j++) {
+      double kx = TWOPI*i/lx;
+      double ky = TWOPI*j/ly;
+      complex<double> temp(calc(kx,ky,t));
+      Hcomplex2(i+nx/2,j+ny/2) = temp;
     }
   }
 
+  printf("%f",imag(Hcomplex2(1,1)));
+
+  for (int x = 0 ; x < nx ; x++) {
+    for (int y = 0 ; y < ny ; y++) {
+      Hcomplex(x,y) = 0;
+      for (int i = -nx/2 ; i < nx/2 ; i++) {
+	for (int j = -ny/2 ; j < ny/2 ; j++) {
+	  double kx = TWOPI*i/lx;
+	  double ky = TWOPI*j/ly;
+	  double temp1 = (kx*x*lx/nx)+(ky*y*ly/ny);
+	  complex<double> temp(cos(temp1),sin(temp1));
+	  Hcomplex(x,y) += Hcomplex2(i+nx/2,j+ny/2) * temp;
+	}
+      }
+    }
+  }
+  /*
   //ifft on first dimension
-  for (int i = 0 ; i < Hcomplex.sizex() ; i++) {
-    DvectorComplex vec(Hcomplex.sizey());
-    for (int j = 0 ; j < Hcomplex.sizey() ; j++) {
+  for (int i = 0 ; i < nx ; i++) {
+    DvectorComplex vec(ny);
+    for (int j = 0 ; j < ny ; j++) {
       vec(j)=Hcomplex(i,j); 
     }
     Ftransform::ifft(vec);
-    for (int j = 0 ; j < Hcomplex.sizey() ; j++) {
-     Hcomplex(i,j)=vec(j); 
+    for (int j = 0 ; j < ny ; j++) {
+      Hcomplex(i,j)=vec(j); 
     }
   }
 
   //ifft on second dimension
-  for (int j = 0 ; j < Hcomplex.sizey() ; j++) {
-    DvectorComplex vec(Hcomplex.sizex());
-    for (int i = 0 ; i < Hcomplex.sizex() ; i++) {
+  for (int j = 0 ; j < ny ; j++) {
+    DvectorComplex vec(nx);
+    for (int i = 0 ; i < nx ; i++) {
       vec(i)=Hcomplex(i,j); 
     }
     Ftransform::ifft(vec);
-    for (int i = 0 ; i < Hcomplex.sizey() ; i++) {
-     Hcomplex(i,j)=vec(i); 
+    for (int i = 0 ; i < ny ; i++) {
+      Hcomplex(i,j)=vec(i); 
     }
-  }
+  }*/
 
-  for (int i = 0 ; i < Hcomplex.sizex() ; i++) {
-    for (int j = 0 ; j < Hcomplex.sizey() ; j++) {
-      (*H)(i,j)=real(Hcomplex(i,j));
+  for (int i = 0 ; i < nx ; i++) {
+    for (int j = 0 ; j < ny ; j++) {
+      (*H)(i,j)=abs(Hcomplex(i,j));
     }
   }
 

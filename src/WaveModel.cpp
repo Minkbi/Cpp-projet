@@ -36,9 +36,3 @@ double WaveModel::getIntensite() const {
 double WaveModel::getAjustement() const {
   return ajustement;
 }
-
-double WaveModel::operator()(int, int, double) const {
-  return ajustement;
-}
-
-void WaveModel::compute(double, Height*) const {}

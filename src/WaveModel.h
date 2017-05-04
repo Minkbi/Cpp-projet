@@ -16,15 +16,13 @@ public:
   double getAlignement() const;
   double getIntensite() const;
   double getAjustement() const;
-  virtual double operator()(int, int, double) const;
-  virtual void compute(double, Height*) const;
+  virtual void compute(double, Height*) const = 0;
 
 protected:
   Dvector direction;
   double alignement;
   double intensite;
   double ajustement;
-
 };
 
 typedef std::shared_ptr<WaveModel> WaveModelPtr;

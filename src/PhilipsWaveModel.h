@@ -4,7 +4,6 @@
 #include <iostream>
 #include <cmath>
 #include "WaveModel.h"
-#include "PhilipsWave.h"
 #include "Ftransform.h"
 #include "HeightComplex.h"
 #include <cstdio>
@@ -26,24 +25,14 @@
 */
 #define RANDN sqrt(-2.0*log(RAND))*cos(TWOPI*RAND)
 
-typedef struct ListPhilips ListPhilips;
-struct ListPhilips
-{
-  PhilipsWave* wave;
-  ListPhilips *next;
-};
-
 class PhilipsWaveModel : public WaveModel {
  public:
   ~PhilipsWaveModel();
   PhilipsWaveModel(Dvector, double, double, double);
   PhilipsWaveModel(const PhilipsWaveModel &);
-  ListPhilips* getWaveList() const;
-  void addWave(PhilipsWave);
-  double operator()(int, int, double) const override;
+  complex<double> calc(double, double, double) const;
   void compute(double, Height*) const override;
  private:
-  ListPhilips *waveList;
 };
 
 #endif

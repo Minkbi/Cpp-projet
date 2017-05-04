@@ -41,7 +41,7 @@ HeightComplex::HeightComplex(const Height &h){
   for (int i=0; i<nx; i++) {
     mat[i] = new std::complex<double>[ny];
     for (int j=0; j<ny; j++){
-    	mat[i][j] = h(i,j);
+      mat[i][j] = std::complex<double>(h(i,j),0);
     }
   } 
 }

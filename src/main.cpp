@@ -9,10 +9,10 @@
 int main(int argc, char** argv) {
 
   /** @todo Initialiser des paramètres de simulation */
-  double lx = 1000;
-  double ly = 1000;
-  int nx = 100;
-  int ny = 100;
+  double lx = 10000;
+  double ly = 10000;
+  int nx = 10;
+  int ny = 10;
 
   /** @todo Initialiser du modèle*/
   Dvector dir(2);
@@ -36,9 +36,7 @@ int main(int argc, char** argv) {
 	}
       case 'p':
 	{
-	  model = new PhilipsWaveModel(dir,1,1,1);
-	  PhilipsWave wave(dir,10,10,10);
-	  ((PhilipsWaveModel*)model)->addWave(wave);
+	  model = new PhilipsWaveModel(dir,10,10,10);
 	}
 	break;
       default: 

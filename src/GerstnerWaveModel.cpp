@@ -57,15 +57,7 @@ double GerstnerWaveModel::operator()(int x, int y, double t) const {
 void GerstnerWaveModel::compute(double t, Height *H) const {
   for (int x = 0 ; x < H->sizex() ; x++) {
     for (int y = 0 ; y < H->sizey() ; y++) {
-      double z = ajustement; //hauteur moyenne / initiale
-      ListGerstner *cour = waveList;
-      while(cour !=NULL){
-	z += cour->wave->getAmplitude() * cos(cour->wave->getDirection()(0) * x
-					      + cour->wave->getDirection()(1) * y
-					      - cour->wave->getFrequence()* t +cour->wave->getPhase() );
-	cour = cour->next;
-      }
-      (*H)(x,y) = z;
+      (*H)(x,y) = (*this)(x,y,t);
     }
   }
 }
