@@ -9,10 +9,10 @@
 int main(int argc, char** argv) {
 
   /** @todo Initialiser des paramètres de simulation */
-  double lx = 10000;
-  double ly = 10000;
-  int nx = 10;
-  int ny = 10;
+  double lx = 1000;
+  double ly = 1000;
+  int nx = 100;
+  int ny = 100;
 
   /** @todo Initialiser du modèle*/
   Dvector dir(2);
@@ -30,13 +30,13 @@ int main(int argc, char** argv) {
 	  model = new GerstnerWaveModel(dir,1,1,1);
 	  GerstnerWave wave(dir,10,10,10);
 	  ((GerstnerWaveModel*)model)->addWave(wave);
-	  GerstnerWave wave2(dir2,10,10,10);
+	  GerstnerWave wave2(dir2,7,7,7);
 	  ((GerstnerWaveModel*)model)->addWave(wave2);
 	  break;
 	}
       case 'p':
 	{
-	  model = new PhilipsWaveModel(dir,10,10,10);
+	  model = new PhilipsWaveModel(dir,10,10,10,nx,ny);
 	}
 	break;
       default: 
@@ -58,7 +58,7 @@ int main(int argc, char** argv) {
     model = new GerstnerWaveModel(dir,1,1,1);
     GerstnerWave wave(dir,10,10,10);
     ((GerstnerWaveModel*)model)->addWave(wave);
-    GerstnerWave wave2(dir2,10,10,10);
+    GerstnerWave wave2(dir2,7,7,7);
     ((GerstnerWaveModel*)model)->addWave(wave2);
   }
   WaveModelPtr modelPtr(model);
@@ -67,16 +67,16 @@ int main(int argc, char** argv) {
 
   /** @todo Initialiser de l'océan */
   ocean = new Ocean(lx,ly,nx,ny,modelPtr,H);
-
+   printf("1\n");
   /* Initialisation de la fenêtre d'affichage */
   Window::init(WIDTH, HEIGHT, "Houle", argc, argv, "AZERTY", 50, 1);
-
+   printf("2\n");
   /* Execute la simulation */
   Window::launch();
-
+   printf("3\n");
   /* Libère la mémoire */
   Window::quit();
-
+   printf("4\n");
   delete ocean;
 
   return 0;

@@ -104,6 +104,7 @@ namespace Window {
       glDrawArrays(GL_LINE_STRIP, 0, nxOcean+1);
       glDisableClientState(GL_VERTEX_ARRAY);
     }
+
     glColor3ub(0, 0, 0);
   }
 
@@ -149,7 +150,7 @@ namespace Window {
     }
     for(int i=0 ; i<nxOcean ; i++) {
       vertexOceanY.push_back(new double[3*(nyOcean+1)]);
-    }
+      }
     // Initialise les tableaux nécessaires aux tranferts de données
     for(int x=0 ; x<nxOcean ; x++) {
       ocean->init_gl_VertexArrayY(x, vertexOceanY[x]);
@@ -157,6 +158,7 @@ namespace Window {
     for(int y=0 ; y<nyOcean ; y++) {
       ocean->init_gl_VertexArrayX(y, vertexOceanX[y]);
     }
+
     // Réalise l'affichage
     glClearColor(1, 1, 1, 1);
     glutReshapeFunc(reshape);

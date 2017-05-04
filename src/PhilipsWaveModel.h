@@ -28,11 +28,13 @@
 class PhilipsWaveModel : public WaveModel {
  public:
   ~PhilipsWaveModel();
-  PhilipsWaveModel(Dvector, double, double, double);
+  PhilipsWaveModel(Dvector, double, double, double, int nx, int ny);
   PhilipsWaveModel(const PhilipsWaveModel &);
-  complex<double> calc(double, double, double) const;
+  complex<double> calc(double, double, double, int i, int j) const;
   void compute(double, Height*) const override;
  private:
+  double **epr;
+  double **epi;
 };
 
 #endif

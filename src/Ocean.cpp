@@ -59,7 +59,6 @@ void Ocean::init_gl_VertexArrayY(const int x, double* const vertices) const {
   vertices[3*ny]   = (lx/nx)*x;
   vertices[3*ny+2] = ly;
 }
-
 /** Convertit le champs de hauteur en tabeau directement utilisable
  *  par OpenGL pour un y donné
  *  param[in]   y        abscisse de la colonne à parcourir
@@ -67,9 +66,9 @@ void Ocean::init_gl_VertexArrayY(const int x, double* const vertices) const {
  */
 void Ocean::gl_VertexArrayX(const int y, double* const vertices) const {
   for(int x=0 ; x<nx ; x++) {
-    vertices[3*x+1] = 1-2*((x+y)%2)*H(y,x);
+    vertices[3*x+1] = H(y,x);
   }
-  vertices[3*nx+1] = 1-2*((nx+y)%2)*H(y,0);
+  vertices[3*nx+1]  = H(y,0);
 }
 
 /** Convertit le champs de hauteur en tabeau directement utilisable
