@@ -85,26 +85,28 @@ namespace Window {
 
     // Parcours la scène dans la direction x afin de récupérer
     // les colonnes à afficher
-    for(int x = 0 ; x < nxOcean ; x++) {
+    for(int x = 0 ; x < nxOcean-1 ; x++) {
       // Récupère les données depuis la classe Ocean
       ocean->gl_VertexArrayY(x, vertexOceanY[x]);
       glEnableClientState(GL_VERTEX_ARRAY);
       glVertexPointer(3, GL_DOUBLE, 0, vertexOceanY[x]);
-      glDrawArrays(GL_LINE_STRIP, 0, nyOcean+1);
+      glDrawArrays(GL_TRIANGLES, 0, 3*(nyOcean-1));
       glDisableClientState(GL_VERTEX_ARRAY);
     }
 
+    // Impose la deuxième couleur d'affichage de la grille
+    glColor3ub(102, 204, 255);
+
     // Parcours la scène dans la direction y afin de récupérer
     // les lignes à afficher
-    for(int y = 0 ; y < nyOcean ; y++) {
+    for(int y = 0 ; y < nyOcean-1 ; y++) {
       // Récupère les données depuis la classe Ocean
       ocean->gl_VertexArrayX(y, vertexOceanX[y]);
       glEnableClientState(GL_VERTEX_ARRAY);
       glVertexPointer(3, GL_DOUBLE, 0, vertexOceanX[y]);
-      glDrawArrays(GL_LINE_STRIP, 0, nxOcean+1);
+      glDrawArrays(GL_TRIANGLES, 0, 3*(nxOcean-1));
       glDisableClientState(GL_VERTEX_ARRAY);
     }
-
     glColor3ub(0, 0, 0);
   }
 
@@ -145,23 +147,23 @@ namespace Window {
     // Initialise le tableau de données à afficher
     nxOcean = ocean->getNx();
     nyOcean = ocean->getNy();
-    for(int i=0 ; i<nyOcean ; i++) {
-      vertexOceanX.push_back(new double[3*(nxOcean+1)]);
+    for(int i=0 ; i<nyOcean-1 ; i++) {
+      vertexOceanX.push_back(new double[9*(nxOcean-1)]);
     }
-    for(int i=0 ; i<nxOcean ; i++) {
-      vertexOceanY.push_back(new double[3*(nyOcean+1)]);
-      }
+    for(int i=0 ; i<nxOcean-1 ; i++) {
+      vertexOceanY.push_back(new double[9*(nyOcean-1)]);
+    }
     // Initialise les tableaux nécessaires aux tranferts de données
-    for(int x=0 ; x<nxOcean ; x++) {
+    for(int x=0 ; x<nxOcean-1 ; x++) {
       ocean->init_gl_VertexArrayY(x, vertexOceanY[x]);
     }
-    for(int y=0 ; y<nyOcean ; y++) {
+    for(int y=0 ; y<nyOcean-1 ; y++) {
       ocean->init_gl_VertexArrayX(y, vertexOceanX[y]);
     }
-
     // Réalise l'affichage
     glClearColor(1, 1, 1, 1);
     glutReshapeFunc(reshape);
+
     // La fonction draw permet de définir les procédures d'affichage
     glutDisplayFunc(draw);
     glutPassiveMotionFunc(mouseMove);
@@ -180,8 +182,8 @@ namespace Window {
   }
 
   void quit() {
-    for(int i=0 ; i<nyOcean ; i++) delete[] vertexOceanX[i];
-    for(int i=0 ; i<nxOcean ; i++) delete[] vertexOceanY[i];
+    for(int i=0 ; i<nyOcean-1 ; i++) delete[] vertexOceanX[i];
+    for(int i=0 ; i<nxOcean-1 ; i++) delete[] vertexOceanY[i];
   }
 
   void reshape(int width, int height) {

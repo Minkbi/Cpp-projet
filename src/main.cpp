@@ -67,16 +67,12 @@ int main(int argc, char** argv) {
 
   /** @todo Initialiser de l'océan */
   ocean = new Ocean(lx,ly,nx,ny,modelPtr,H);
-   printf("1\n");
   /* Initialisation de la fenêtre d'affichage */
   Window::init(WIDTH, HEIGHT, "Houle", argc, argv, "AZERTY", 50, 1);
-   printf("2\n");
   /* Execute la simulation */
   Window::launch();
-   printf("3\n");
   /* Libère la mémoire */
   Window::quit();
-   printf("4\n");
   delete ocean;
 
   return 0;

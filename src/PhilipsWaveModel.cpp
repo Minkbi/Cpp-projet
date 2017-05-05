@@ -52,14 +52,24 @@ void PhilipsWaveModel::compute(double t, Height *H) const {
 	double kx = TWOPI*i/lx;
 	double ky = TWOPI*j/ly;
 	complex<double> temp1(calc(kx,ky,t,i+nx/2,j+ny/2));
-	double temp2 = (kx*i*lx/nx)+(ky*j*ly/ny);
-	complex<double> temp3(cos(temp2),sin(temp2));
-	Hcomplex(i+nx/2,j+ny/2) = temp1 * temp3;
+	//double temp2 = (kx*i*lx/nx)+(ky*j*ly/ny);
+	//complex<double> temp3(cos(temp2),sin(temp2));
+	Hcomplex(i+nx/2,j+ny/2) = temp1;// * temp3;
       } else {
 	Hcomplex(i+nx/2,j+ny/2) = 0;
       }
     }
   }
+
+  /*  for (int i = 0 ; i < nx ; i++) {
+    for (int j = 0 ; j < ny ; j++) {
+      for (int x = -nx/2 ; x < nx/2 ; x++) {
+	for (int y = -ny/2 ; y < ny/2 ; y++) {
+	  (*H)(i,j)=real(Hcomplex(x+nx/2,y+ny/2));
+	}
+      }
+    }
+    }*/
 
   //ifft on first dimension
   for (int i = 0 ; i < nx ; i++) {
@@ -80,7 +90,7 @@ void PhilipsWaveModel::compute(double t, Height *H) const {
       vec(i)=Hcomplex(i,j); 
     }
     Ftransform::ifft(vec);
-    for (int i = 0 ; i < ny ; i++) {
+    for (int i = 0 ; i < nx ; i++) {
       Hcomplex(i,j)=vec(i); 
     }
   }
